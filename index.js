@@ -48,22 +48,22 @@ const moves = [
 	new Move(
 		8,
 		'Left Oblique using the 8-to-5 Step',
-		(impossibleTurnIds = [0, 1, 4, 5, 6])
+		(impossibleTurnIds = [0, 1, 2, 4, 5, 6, 7, 8, 9, 10])
 	),
 	new Move(
 		9,
 		'Left Oblique using the 6-to-5 Step',
-		(impossibleTurnIds = [0, 1, 4, 5, 6])
+		(impossibleTurnIds = [0, 1, 2, 4, 5, 6, 7, 8, 9, 10])
 	),
 	new Move(
 		10,
 		'Right Oblique using the 8-to-5 Step',
-		(impossibleTurnIds = [0, 1, 4, 5, 6])
+		(impossibleTurnIds = [0, 1, 2, 4, 5, 6, 7, 8, 9, 10])
 	),
 	new Move(
 		11,
 		'Right Oblique using the 6-to-5 step',
-		(impossibleTurnIds = [0, 1, 4, 5, 6])
+		(impossibleTurnIds = [0, 1, 2, 4, 5, 6, 7, 8, 9, 10])
 	),
 	new Move(12, 'Left Lateral Slide', (impossibleTurnIds = [4, 5, 6])),
 	new Move(13, 'Right Lateral Slide', (impossibleTurnIds = [4, 5, 6])),
