@@ -12,6 +12,10 @@
 	font-weight: bold;
 }
 
+#horns-up-switch-label {
+	margin-left: calc(50% - 5rem);
+}
+
 // ---------------------- Bulma ----------------------
 
 // Set your brand colors
@@ -21,7 +25,8 @@ $osu-grey: #666666;
 $primary: $osu-scarlet;
 $link: $osu-scarlet;
 
-$family-primary: proximanova;
+// $family-primary: proximanova;
+$family-primary: 'Montserrat';
 
 // Import only what you need from Bulma
 @import '../../node_modules/bulma/sass/utilities/_all.sass';

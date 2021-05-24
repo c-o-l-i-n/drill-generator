@@ -85,7 +85,8 @@ const endMovesWeighted = [
 	{ id: -1, name: 'Halt Kick' },
 	{ id: -1, name: 'Halt Kick' },
 	{ id: -1, name: 'Halt Kick' },
-	{ id: -1, name: 'Hats-Off Ohio' },
+	{ id: -1, name: 'Halt Kick' },
+	{ id: -2, name: 'Hats-Off Ohio' },
 ]
 
 const temposWeighted = [100, 120, 120, 120, 144, 144, 144, 160, 160, 180]
@@ -95,6 +96,8 @@ const numMoves = 4
 const drillHeader = document.getElementById('drill-header')
 const drillBody = document.getElementById('drill-body')
 const newDrillButton = document.getElementById('new-drill-btn')
+const hornsUpSwitch = document.getElementById('horns-up-switch')
+const hornsUpSwitchLabel = document.getElementById('horns-up-switch-label')
 
 const appendLineOfDrill = (drillText) => {
 	let pNode = document.createElement('p')
@@ -141,7 +144,16 @@ const generateDrill = () => {
 		// no turn after backward marching
 		let hasTurn = i == numMoves || (move.id != 2 && pickRandom([true, false]))
 
-		let turn = i < numMoves ? move.chooseTurn() : pickRandom(endMovesWeighted)
+		let turn
+		if (i < numMoves) {
+			turn = move.chooseTurn()
+		} else {
+			if (hornsUpSwitch.checked) {
+				turn = pickRandom(endMovesWeighted)
+			} else {
+				turn = endMovesWeighted[0]
+			}
+		}
 
 		previousTurnId = hasTurn ? turn.id : -1
 
@@ -166,7 +178,10 @@ const generateDrill = () => {
 
 		appendLineOfDrill(drill)
 
-		hasTurn && appendLineOfDrill(turn.name)
+		hasTurn &&
+			appendLineOfDrill(
+				turn.name + (hornsUpSwitch.checked && turn.id == -1 ? ', Down' : '')
+			)
 	}
 
 	appendLineOfDrill('Tempo: ' + pickRandom(temposWeighted) + ' BPM')
@@ -176,3 +191,11 @@ const generateDrill = () => {
 }
 
 newDrillButton.addEventListener('click', generateDrill)
+
+hornsUpSwitch.addEventListener('change', (e) => {
+	if (hornsUpSwitch.checked) {
+		hornsUpSwitchLabel.innerHTML = 'Horns Up'
+	} else {
+		hornsUpSwitchLabel.innerHTML = 'Horns Down'
+	}
+})
