@@ -3,18 +3,18 @@ const pickRandom = (array) => {
 }
 
 const turns = [
-	new Turn(0, 'Left Flank', (weightedProbability = 4)),
-	new Turn(1, 'Right Flank', (weightedProbability = 4)),
-	new Turn(2, 'Regular TTR', (weightedProbability = 6)),
-	new Turn(3, 'Box TTR', (weightedProbability = 6)),
+	new Turn(0, 'Left Flank', 4, [8, 9, 10, 11, 12, 13, 14, 15]),
+	new Turn(1, 'Right Flank', 4, [8, 9, 10, 11, 12, 13, 14, 15]),
+	new Turn(2, 'Regular TTR', 6, [8, 9, 10, 11, 12, 13, 14, 15]),
+	new Turn(3, 'Box TTR', 6),
 	new Turn(4, 'Slide TTR on 2', 3),
 	new Turn(5, 'Slide TTR on 4', 3),
 	new Turn(6, 'Slide TTR on 6', 3),
-	new Turn(7, 'Slow Turn 90° to the Left in 8 Counts'),
-	new Turn(8, 'Slow Turn 180° to the Left in 8 Counts'),
-	new Turn(9, 'Slow Turn 90° to the Right in 8 Counts'),
-	new Turn(10, 'Slow Turn 180° to the Right in 8 Counts'),
-	new Turn(11, 'Hats Off, Rest 123'),
+	new Turn(7, 'Slow Turn 90° to the Left in 8 Counts', 1, [8, 9, 10, 11]),
+	new Turn(8, 'Slow Turn 180° to the Left in 8 Counts', 1, [8, 9, 10, 11]),
+	new Turn(9, 'Slow Turn 90° to the Right in 8 Counts', 1, [8, 9, 10, 11]),
+	new Turn(10, 'Slow Turn 180° to the Right in 8 Counts', 1, [8, 9, 10, 11]),
+	new Turn(11, 'Hats Off, Rest 123', 1, [8, 9, 10, 11, 14, 15]),
 ]
 
 let turnsWeighted = []
@@ -65,8 +65,8 @@ const moves = [
 		'Right Oblique using the 6-to-5 step',
 		(impossibleTurnIds = [0, 1, 2, 4, 5, 6, 7, 8, 9, 10])
 	),
-	new Move(12, 'Left Lateral Slide', (impossibleTurnIds = [4, 5, 6])),
-	new Move(13, 'Right Lateral Slide', (impossibleTurnIds = [4, 5, 6])),
+	new Move(12, 'Left Lateral Slide', (impossibleTurnIds = [0, 1, 4, 5, 6])),
+	new Move(13, 'Right Lateral Slide', (impossibleTurnIds = [0, 1, 4, 5, 6])),
 	new Move(14, 'Left Horn Slide', (impossibleTurnIds = [0, 1, 2, 4, 5, 6])),
 	new Move(15, 'Right Horn Slide', (impossibleTurnIds = [0, 1, 2, 4, 5, 6])),
 	new Move(16, 'Side-Steps', (impossibleTurnIds = [4, 5, 6])),
@@ -117,6 +117,7 @@ const generateDrill = () => {
 	drillHeader.innerHTML = 'Your drill is:\n'
 
 	let previousMoveId = -1
+	let previousTurnId = -1
 
 	for (let i = 1; i <= numMoves; i++) {
 		let drill = ''
@@ -126,9 +127,13 @@ const generateDrill = () => {
 		let move
 		do {
 			move = pickRandom(movesWeighted)
-			// chose a different move it is the same move twice in a row, or it's starting the drill with an oblique
+			// chose a different move if it is the same move twice in a row, it is in the previous turn's list of impossible moves, or it's starting the drill with an oblique
 		} while (
 			move.id == previousMoveId ||
+			(previousTurnId >= 0 &&
+				turns
+					.find((element) => element.id == previousTurnId)
+					.impossibleMoveIds.includes(move.id)) ||
 			(i == 1 && 8 <= move.id && move.id <= 11)
 		)
 		previousMoveId = move.id
@@ -137,6 +142,8 @@ const generateDrill = () => {
 		let hasTurn = i == numMoves || (move.id != 2 && pickRandom([true, false]))
 
 		let turn = i < numMoves ? move.chooseTurn() : pickRandom(endMovesWeighted)
+
+		previousTurnId = hasTurn ? turn.id : -1
 
 		// only do 1 8 of any Adjusted Step or Oblique
 		if (3 <= move.id && move.id <= 11) {
