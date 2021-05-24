@@ -1,5 +1,9 @@
 @charset "utf-8";
 
+* {
+	font-family: proximanova;
+}
+
 #drill-body {
 	display: none;
 }
@@ -31,3 +35,5 @@ $link: $osu-scarlet;
 @import '../../node_modules/bulma/sass/components/navbar.sass';
 // @import '../../node_modules/bulma/sass/layout/hero.sass';
 @import '../../node_modules/bulma/sass/layout/section.sass';
+@import '../../node_modules/bulma-switch/dist/css/bulma-switch.sass';
+@import 'font.scss';
