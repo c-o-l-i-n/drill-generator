@@ -1,0 +1,33 @@
+@charset "utf-8";
+
+#drill-body {
+	display: none;
+}
+
+#drill-body > hr {
+	margin: 1rem 0 1rem 0;
+}
+
+#drill-body > p:last-child {
+	font-weight: bold;
+}
+
+// ---------------------- Bulma ----------------------
+
+// Set your brand colors
+$osu-scarlet: #bb0000;
+$osu-grey: #666666;
+
+$primary: $osu-scarlet;
+$link: $osu-scarlet;
+
+// Import only what you need from Bulma
+@import '../../node_modules/bulma/sass/utilities/_all.sass';
+@import '../../node_modules/bulma/sass/base/_all.sass';
+@import '../../node_modules/bulma/sass/elements/button.sass';
+@import '../../node_modules/bulma/sass/elements/container.sass';
+@import '../../node_modules/bulma/sass/elements/title.sass';
+// @import '../../node_modules/bulma/sass/form/_all.sass';
+@import '../../node_modules/bulma/sass/components/navbar.sass';
+// @import '../../node_modules/bulma/sass/layout/hero.sass';
+@import '../../node_modules/bulma/sass/layout/section.sass';
