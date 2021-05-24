@@ -1,9 +1,5 @@
 @charset "utf-8";
 
-* {
-	font-family: proximanova;
-}
-
 #drill-body {
 	display: none;
 }
@@ -24,6 +20,8 @@ $osu-grey: #666666;
 
 $primary: $osu-scarlet;
 $link: $osu-scarlet;
+
+$family-primary: proximanova;
 
 // Import only what you need from Bulma
 @import '../../node_modules/bulma/sass/utilities/_all.sass';
