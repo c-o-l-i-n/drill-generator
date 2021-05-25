@@ -199,3 +199,35 @@ hornsUpSwitch.addEventListener('change', (e) => {
 		hornsUpSwitchLabel.innerHTML = 'Horns Down'
 	}
 })
+
+// ---------------------- Metronome ----------------------
+
+let metronome = new Metronome()
+const metronomeButtons = document.getElementsByClassName('metronome-button')
+
+for (metronomeButton of metronomeButtons) {
+	metronomeButton.addEventListener('click', (e) => {
+		if (metronome.isRunning) {
+			if (e.currentTarget.classList.contains('playing')) {
+				metronome.stop()
+				e.currentTarget.classList.remove('playing')
+				e.currentTarget.classList.remove('is-primary')
+			} else {
+				for (metronomeButton of metronomeButtons) {
+					metronomeButton.classList.remove('playing')
+					metronomeButton.classList.remove('is-primary')
+				}
+				metronome.stop()
+				metronome.tempo = e.currentTarget.dataset.tempo
+				metronome.start()
+				e.currentTarget.classList.add('playing')
+				e.currentTarget.classList.add('is-primary')
+			}
+		} else {
+			metronome.tempo = e.currentTarget.dataset.tempo
+			metronome.start()
+			e.currentTarget.classList.add('playing')
+			e.currentTarget.classList.add('is-primary')
+		}
+	})
+}

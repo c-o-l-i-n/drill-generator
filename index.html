@@ -41,7 +41,7 @@
 		<link rel="manifest" href="/site.webmanifest" />
 
 		<title>Drill Generator</title>
-		<link rel="stylesheet" href="assets/css/style.css" />
+		<link rel="stylesheet" href="/assets/css/style.css" />
 		<link
 			rel="stylesheet"
 			href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
@@ -57,7 +57,7 @@
 		>
 			<div class="navbar-brand">
 				<img
-					src="assets/images/marching-shoe.svg"
+					src="/assets/images/marching-shoe.svg"
 					alt="Marching Shoe"
 					width="32"
 					id="logo"
@@ -89,6 +89,38 @@
 					>
 				</div>
 			</div>
+			<div id="metronome-buttons" class="container is-centered mt-6 buttons">
+				<button class="button is-medium metronome-button" data-tempo="100">
+					<span class="icon">
+						<img src="/assets/images/metronome.svg" alt="Metronome" />
+					</span>
+					<span>100</span>
+				</button>
+				<button class="button is-medium metronome-button" data-tempo="120">
+					<span class="icon">
+						<img src="/assets/images/metronome.svg" alt="Metronome" />
+					</span>
+					<span>120</span>
+				</button>
+				<button class="button is-medium metronome-button" data-tempo="144">
+					<span class="icon">
+						<img src="/assets/images/metronome.svg" alt="Metronome" />
+					</span>
+					<span>144</span>
+				</button>
+				<button class="button is-medium metronome-button" data-tempo="160">
+					<span class="icon">
+						<img src="/assets/images/metronome.svg" alt="Metronome" />
+					</span>
+					<span>160</span>
+				</button>
+				<button class="button is-medium metronome-button" data-tempo="180">
+					<span class="icon">
+						<img src="/assets/images/metronome.svg" alt="Metronome" />
+					</span>
+					<span>180</span>
+				</button>
+			</div>
 		</main>
 		<footer class="footer has-text-centered">
 			<p>
@@ -105,8 +137,10 @@
 			</p>
 			<p><a href="feedback.html">Submit Feedback</a></p>
 		</footer>
-		<script src="assets/js/Move.js"></script>
-		<script src="assets/js/Turn.js"></script>
-		<script src="assets/js/index.js"></script>
+		<script src="/assets/js/Move.js"></script>
+		<script src="/assets/js/Turn.js"></script>
+		<script src="/assets/js/unmute.js"></script>
+		<script src="/assets/js/Metronome.js"></script>
+		<script src="/assets/js/index.js"></script>
 	</body>
 </html>

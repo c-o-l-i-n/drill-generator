@@ -30,6 +30,63 @@ main {
 	margin-left: calc(50% - 5rem);
 }
 
+.metronome-button.playing {
+	$tempo: #{attr(data-tempo)};
+
+	img {
+		filter: invert(1);
+		animation: metronome infinite;
+	}
+
+	&[data-tempo='100'] {
+		img {
+			animation-duration: 60000ms / 100 * 2;
+		}
+	}
+
+	&[data-tempo='120'] {
+		img {
+			animation-duration: 60000ms / 120 * 2;
+		}
+	}
+
+	&[data-tempo='144'] {
+		img {
+			animation-duration: 60000ms / 144 * 2;
+		}
+	}
+
+	&[data-tempo='160'] {
+		img {
+			animation-duration: 60000ms / 160 * 2;
+		}
+	}
+
+	&[data-tempo='180'] {
+		img {
+			animation-duration: 60000ms / 180 * 2;
+		}
+	}
+}
+
+@keyframes metronome {
+	0% {
+		transform: scaleX(-1);
+	}
+	49.999% {
+		transform: scaleX(-1);
+	}
+	50% {
+		transform: scaleX(1);
+	}
+	99.999% {
+		transform: scaleX(1);
+	}
+	100% {
+		transform: scaleX(-1);
+	}
+}
+
 // ---------------------- Bulma ----------------------
 
 // Set your brand colors
