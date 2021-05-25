@@ -2,9 +2,9 @@
 
 <img src="assets/images/screenshot.png" align="right" width="360px" alt="Drill Generator" title="Drill Generator">
 
-[Drill Generator](https://drillgenerator.com) generates drill in the style of
-OSUMB summer sessions and tryouts to help candidates practice and to help squad
-leaders come up with drill.
+[Drill Generator](https://drillgenerator.com) generates drills in the style of
+OSUMB summer sessions and tryouts. The app helps candidates practice and helps
+squad leaders develop drills.
 
 ## Usage
 
