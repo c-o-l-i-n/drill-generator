@@ -1,7 +1,7 @@
 {
 	"name": "drill-generator",
 	"version": "1.0.0",
-	"description": "Generates random drills in the style os OSUMB summer sessions and tryouts",
+	"description": "Generates drills in the style of OSUMB summer sessions and tryouts.",
 	"main": "index.html",
 	"scripts": {
 		"css-build": "node-sass --omit-source-map-url assets/scss/style.scss assets/css/style.css --output-style compressed",
@@ -12,8 +12,8 @@
 		"type": "git",
 		"url": "git+https://github.com/c-o-l-i-n/drill-generator.git"
 	},
-	"author": "Colin A. Williams, Head Squad Leader, H-Row, The Ohio State University Marching Band",
-	"license": "ISC",
+	"author": "Colin A. Williams",
+	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/c-o-l-i-n/drill-generator/issues"
 	},
