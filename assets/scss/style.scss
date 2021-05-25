@@ -16,14 +16,21 @@ main {
 
 #drill-body {
 	display: none;
-}
 
-#drill-body > hr {
-	margin: 1rem 0 1rem 0;
-}
+	p {
+		padding: 1rem 0 1rem 0;
+		border-bottom: solid #f5f5f5 2px;
 
-#drill-body > p:last-child {
-	font-weight: bold;
+		&:first-child {
+			padding-top: 0;
+		}
+
+		&:last-child {
+			padding-bottom: 0;
+			border-bottom: none;
+			font-weight: bold;
+		}
+	}
 }
 
 #horns-up-switch-label {
@@ -90,25 +97,28 @@ main {
 // ---------------------- Bulma ----------------------
 
 // Set your brand colors
-$osu-scarlet: #bb0000;
-$osu-grey: #666666;
+$scarlet: #bb0000;
+$gray: #666666;
 
-$primary: $osu-scarlet;
-$link: $osu-scarlet;
+$primary: $scarlet;
+$link: $scarlet;
 
-// $family-primary: proximanova;
 $family-primary: 'Montserrat';
 
 // Import only what you need from Bulma
-// @import '../../node_modules/bulma/sass/utilities/_all.sass';
-@import '../../node_modules/bulma/bulma.sass';
-// @import '../../node_modules/bulma/sass/base/_all.sass';
-// @import '../../node_modules/bulma/sass/elements/button.sass';
-// @import '../../node_modules/bulma/sass/elements/container.sass';
-// @import '../../node_modules/bulma/sass/elements/title.sass';
-// @import '../../node_modules/bulma/sass/form/_all.sass';
-// @import '../../node_modules/bulma/sass/components/navbar.sass';
-// @import '../../node_modules/bulma/sass/layout/hero.sass';
-// @import '../../node_modules/bulma/sass/layout/section.sass';
+@import '../../node_modules/bulma/sass/base/_all.sass';
+@import '../../node_modules/bulma/sass/utilities/_all.sass';
+@import '../../node_modules/bulma/sass/elements/button.sass';
+@import '../../node_modules/bulma/sass/elements/container.sass';
+@import '../../node_modules/bulma/sass/elements/title.sass';
+@import '../../node_modules/bulma/sass/elements/box.sass';
+@import '../../node_modules/bulma/sass/form/_all.sass';
+@import '../../node_modules/bulma/sass/components/navbar.sass';
+@import '../../node_modules/bulma/sass/layout/footer.sass';
+@import '../../node_modules/bulma/sass/layout/section.sass';
+@import '../../node_modules/bulma/sass/helpers/typography.sass';
+@import '../../node_modules/bulma/sass/helpers/spacing.sass';
+
 @import '../../node_modules/bulma-switch/dist/css/bulma-switch.sass';
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');

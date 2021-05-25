@@ -104,7 +104,6 @@ const appendLineOfDrill = (drillText) => {
 	let textNode = document.createTextNode(drillText)
 	pNode.appendChild(textNode)
 	drillBody.appendChild(pNode)
-	drillBody.appendChild(document.createElement('hr'))
 }
 
 const clearDrill = () => {
@@ -185,9 +184,6 @@ const generateDrill = () => {
 	}
 
 	appendLineOfDrill('Tempo: ' + pickRandom(temposWeighted) + ' BPM')
-
-	// remove the last <hr>
-	drillBody.removeChild(drillBody.lastChild)
 }
 
 newDrillButton.addEventListener('click', generateDrill)
