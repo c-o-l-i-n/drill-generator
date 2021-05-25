@@ -43,8 +43,8 @@ const moves = [
 	new Move(3, '6-to-5', (impossibleTurnIds = [4, 5, 6])),
 	new Move(4, '12-to-5', (impossibleTurnIds = [4, 5, 6])),
 	new Move(5, '16-to-5', (impossibleTurnIds = [4, 5, 6])),
-	new Move(6, '24-to-5', (impossibleTurnIds = [4, 5, 6])),
-	new Move(7, '32-to-5', (impossibleTurnIds = [4, 5, 6])),
+	// new Move(6, '24-to-5', (impossibleTurnIds = [4, 5, 6])),
+	// new Move(7, '32-to-5', (impossibleTurnIds = [4, 5, 6])),
 	new Move(
 		8,
 		'Left Oblique using the 8-to-5 Step',
@@ -91,7 +91,7 @@ const endMovesWeighted = [
 
 const temposWeighted = [100, 120, 120, 120, 144, 144, 144, 160, 160, 180]
 
-const numMoves = 4
+const numMoves = 3
 
 const drillHeader = document.getElementById('drill-header')
 const drillBody = document.getElementById('drill-body')
