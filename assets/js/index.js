@@ -91,13 +91,20 @@ const endMovesWeighted = [
 
 const temposWeighted = [100, 120, 120, 120, 144, 144, 144, 160, 160, 180]
 
-const numMoves = 3
+// ---------------------- DOM elements ----------------------
 
 const drillHeader = document.getElementById('drill-header')
 const drillBody = document.getElementById('drill-body')
+
 const newDrillButton = document.getElementById('new-drill-btn')
+
 const hornsUpSwitch = document.getElementById('horns-up-switch')
 const hornsUpSwitchLabel = document.getElementById('horns-up-switch-label')
+
+const numMovesSlider = document.getElementById('num-moves-slider')
+const numMovesLabel = document.getElementById('num-moves-label')
+
+// ---------------------- Generating Drill ----------------------
 
 const appendLineOfDrill = (drillText) => {
 	let pNode = document.createElement('p')
@@ -120,6 +127,8 @@ const generateDrill = () => {
 
 	let previousMoveId = -1
 	let previousTurnId = -1
+
+	const numMoves = numMovesSlider.value
 
 	for (let i = 1; i <= numMoves; i++) {
 		let drill = ''
@@ -188,12 +197,20 @@ const generateDrill = () => {
 
 newDrillButton.addEventListener('click', generateDrill)
 
+// ---------------------- Horns Up Switch ----------------------
+
 hornsUpSwitch.addEventListener('change', (e) => {
 	if (hornsUpSwitch.checked) {
 		hornsUpSwitchLabel.innerHTML = 'Horns Up'
 	} else {
 		hornsUpSwitchLabel.innerHTML = 'Horns Down'
 	}
+})
+
+// ---------------------- Num Moves Slider ----------------------
+numMovesSlider.addEventListener('input', (e) => {
+	numMovesLabel.innerText =
+		numMovesSlider.value + ' move' + (numMovesSlider.value > 1 ? 's' : '')
 })
 
 // ---------------------- Metronome ----------------------
