@@ -33,6 +33,10 @@ main {
 	}
 }
 
+.dropdown-item:first-child {
+	padding-top: 0.65rem;
+}
+
 #horns-up-switch-label {
 	margin-left: calc(50% - 5rem);
 }
@@ -105,6 +109,8 @@ $link: $scarlet;
 
 $family-primary: 'Montserrat';
 
+$dropdown-menu-min-width: #{'min(400px, 87vw)'};
+
 $slider-radius: 10px;
 $slider-track-radius: 100rem;
 $slider-thumb-radius: 300px;
@@ -121,37 +127,18 @@ $slider-thumb-to-track-ratio: 1;
 @import '../../node_modules/bulma/sass/elements/box.sass';
 @import '../../node_modules/bulma/sass/form/_all.sass';
 @import '../../node_modules/bulma/sass/components/navbar.sass';
+@import '../../node_modules/bulma/sass/components/dropdown.sass';
 @import '../../node_modules/bulma/sass/layout/footer.sass';
 @import '../../node_modules/bulma/sass/layout/section.sass';
-@import '../../node_modules/bulma/sass/helpers/typography.sass';
-@import '../../node_modules/bulma/sass/helpers/spacing.sass';
+@import '../../node_modules/bulma/sass/helpers/_all.sass';
 
 @import '../../node_modules/bulma-switch/dist/css/bulma-switch.sass';
 @import './slider.scss';
-// @import '../../node_modules/bulma-slider/src/sass/index.sass';
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
-// input.slider {
-// 	&::-webkit-slider-thumb {
-// 		appearance: none !important;
-// 		height: $thumb-size !important;
-// 		width: $thumb-size !important;
-// 		margin-top: -($thumb-size / 4) !important;
-// 		background-color: white !important;
-// 	}
-// 	&::-moz-range-thumb {
-// 		height: $thumb-size !important;
-// 		width: $thumb-size !important;
-// 		margin-top: -($thumb-size / 4) !important;
-// 		background-color: white !important;
-// 	}
-// 	&::-ms-thumb {
-// 		height: $thumb-size !important;
-// 		width: $thumb-size !important;
-// 		margin-top: -($thumb-size / 4) !important;
-// 		background-color: white !important;
-// 	}
-// }
-
-// --------------------------------------------------------------
+.dropdown-menu-center {
+	left: 50%;
+	right: auto;
+	transform: translate(-50%, 0);
+}

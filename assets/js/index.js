@@ -98,6 +98,9 @@ const drillBody = document.getElementById('drill-body')
 
 const newDrillButton = document.getElementById('new-drill-btn')
 
+const optionsDropdownButton = document.getElementById('options-dropdown-btn')
+const optionsDropdown = document.getElementById('options-dropdown')
+
 const hornsUpSwitch = document.getElementById('horns-up-switch')
 const hornsUpSwitchLabel = document.getElementById('horns-up-switch-label')
 
@@ -244,3 +247,18 @@ for (metronomeButton of metronomeButtons) {
 		}
 	})
 }
+
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+optionsDropdownButton.addEventListener('click', () => {
+	optionsDropdown.classList.toggle('is-active')
+})
+
+// Close the dropdown if the user clicks outside of it
+window.addEventListener('click', (e) => {
+	if (!optionsDropdown.contains(e.target)) {
+		if (optionsDropdown.classList.contains('is-active')) {
+			optionsDropdown.classList.remove('is-active')
+		}
+	}
+})

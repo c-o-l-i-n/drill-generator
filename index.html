@@ -76,8 +76,61 @@
 						New Drill
 					</button>
 				</div>
+				<div class="is-flex is-flex-direction-row is-justify-content-center">
+					<div id="options-dropdown" class="dropdown">
+						<div id="options-dropdown-btn" class="dropdown-trigger">
+							<button
+								class="button is-medium"
+								aria-haspopup="true"
+								aria-controls="dropdown-menu"
+							>
+								<span>Options</span>
+								<span class="icon is-small">
+									<i class="fas fa-angle-down" aria-hidden="true"></i>
+								</span>
+							</button>
+						</div>
+						<div class="dropdown-menu dropdown-menu-center" role="menu">
+							<div class="dropdown-content">
+								<div class="dropdown-item">
+									<input
+										id="horns-up-switch"
+										type="checkbox"
+										name="horns-up-switch"
+										class="switch is-rounded"
+										checked="checked"
+									/>
+									<label id="horns-up-switch-label" for="horns-up-switch"
+										>Horns Up</label
+									>
+								</div>
+								<hr class="dropdown-divider" />
+								<div class="dropdown-item has-text-centered">
+									<p id="num-moves-label" for="num-moves-slider" class="mb-5">
+										3 moves
+									</p>
+									<input
+										id="num-moves-slider"
+										name="num-moves-slider"
+										class="
+											slider
+											is-large is-primary is-circle is-fullwidth
+											mt-0
+											styled-slider
+										"
+										step="1"
+										min="1"
+										max="5"
+										value="3"
+										type="range"
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="field">
-					<input
+					<!-- <input
 						id="horns-up-switch"
 						type="checkbox"
 						name="horns-up-switch"
@@ -86,10 +139,10 @@
 					/>
 					<label id="horns-up-switch-label" for="horns-up-switch"
 						>Horns Up</label
-					>
+					> -->
 				</div>
 				<div class="field has-text-centered mt-5">
-					<p id="num-moves-label" for="num-moves-slider" class="mb-5">
+					<!-- <p id="num-moves-label" for="num-moves-slider" class="mb-5">
 						3 moves
 					</p>
 					<input
@@ -106,7 +159,7 @@
 						max="5"
 						value="3"
 						type="range"
-					/>
+					/> -->
 				</div>
 			</div>
 			<div id="metronome-buttons" class="container is-centered mt-6 buttons">
