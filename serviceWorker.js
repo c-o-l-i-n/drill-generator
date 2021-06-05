@@ -19,9 +19,6 @@ self.addEventListener('install', (e) => {
 			cache.add('/assets/images/metronome.svg')
 			// external resources
 			cache.add('https://use.fontawesome.com/releases/v5.15.3/css/all.css')
-			cache.add(
-				'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap'
-			)
 		})
 	)
 })
