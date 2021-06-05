@@ -44,6 +44,14 @@
 		<meta name="theme-color" content="#bb0000" />
 		<link rel="manifest" href="/site.webmanifest" />
 
+		<!-- Serive Worker for PWA -->
+		<script>
+			// if browser supports service worker
+			if ('serviceWorker' in navigator) {
+				navigator.serviceWorker.register('/serviceWorker.js')
+			}
+		</script>
+
 		<title>Drill Generator</title>
 		<link rel="stylesheet" href="/assets/css/style.css" />
 		<link
