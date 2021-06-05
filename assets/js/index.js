@@ -18,11 +18,40 @@ const turns = [
 ]
 
 let turnsWeighted = []
+let turnsTurnedOn = new Set()
 for (turn of turns) {
 	for (let i = 0; i < turn.weightedProbability; i++) {
 		turnsWeighted.push(turn)
 	}
+	turnsTurnedOn.add(turn.id)
 }
+
+const turnOptions = [
+	{
+		label: 'Left and Right Flanks',
+		ids: [0, 1],
+	},
+	{
+		label: 'Regular TTR',
+		ids: [2],
+	},
+	{
+		label: 'Box TTR',
+		ids: [3],
+	},
+	{
+		label: 'Slide TTRs',
+		ids: [4, 5, 6],
+	},
+	{
+		label: 'Slow Turns',
+		ids: [7, 8, 9, 10],
+	},
+	{
+		label: 'Hats Off',
+		ids: [11],
+	},
+]
 
 const moves = [
 	new Move(0, 'Mark Time', (impossibleTurnIds = [4, 5, 6])),
@@ -75,11 +104,56 @@ const moves = [
 ]
 
 let movesWeighted = []
+let movesTurnedOn = new Set()
 for (move of moves) {
 	for (let i = 0; i < move.weightedProbability; i++) {
 		movesWeighted.push(move)
 	}
+	movesTurnedOn.add(move.id)
 }
+
+const moveOptions = [
+	{
+		label: 'Mark Time',
+		ids: [0],
+	},
+	{
+		label: 'Forward',
+		ids: [1],
+	},
+	{
+		label: 'Backward',
+		ids: [2],
+	},
+	{
+		label: '6-to-5',
+		ids: [3],
+	},
+	{
+		label: 'Adjusted Step',
+		ids: [4, 5],
+	},
+	{
+		label: 'Obliques',
+		ids: [8, 9, 10, 11],
+	},
+	{
+		label: 'Lateral Slides',
+		ids: [12, 13],
+	},
+	{
+		label: 'Horn Slides',
+		ids: [14, 15],
+	},
+	{
+		label: 'Side-Steps & Step-Sides',
+		ids: [16, 17],
+	},
+	{
+		label: 'Step-Kicks',
+		ids: [18],
+	},
+]
 
 const endMovesWeighted = [
 	{ id: -1, name: 'Halt Kick' },
@@ -107,6 +181,9 @@ const hornsUpSwitchLabel = document.getElementById('horns-up-switch-label')
 const numMovesSlider = document.getElementById('num-moves-slider')
 const numMovesLabel = document.getElementById('num-moves-label')
 
+const moveOptionsElement = document.getElementById('move-options')
+const turnOptionsElement = document.getElementById('turn-options')
+
 // ---------------------- Generating Drill ----------------------
 
 const appendLineOfDrill = (drillText) => {
@@ -123,6 +200,15 @@ const clearDrill = () => {
 	drillBody.style.display = 'block'
 }
 
+const throwDrillError = () => {
+	clearDrill()
+
+	drillHeader.innerHTML = 'Error'
+
+	drillBody.innerHTML =
+		'Impossible drill parameters! 😵<br><br>Adjust options and try again.'
+}
+
 const generateDrill = () => {
 	clearDrill()
 
@@ -133,6 +219,9 @@ const generateDrill = () => {
 
 	const numMoves = numMovesSlider.value
 
+	let errorIterationCounter = 0
+	const maxIterationsBeforeError = 500
+
 	for (let i = 1; i <= numMoves; i++) {
 		let drill = ''
 
@@ -141,29 +230,48 @@ const generateDrill = () => {
 		let move
 		do {
 			move = pickRandom(movesWeighted)
-			// chose a different move if it is the same move twice in a row, it is in the previous turn's list of impossible moves, or it's starting the drill with an oblique
+			errorIterationCounter++
+			// chose a different move if it is not turned on, is the same move twice in a row, is in the previous turn's list of impossible moves, or is starting the drill with an oblique
 		} while (
-			move.id == previousMoveId ||
-			(previousTurnId >= 0 &&
-				turns
-					.find((element) => element.id == previousTurnId)
-					.impossibleMoveIds.includes(move.id)) ||
-			(i == 1 && 8 <= move.id && move.id <= 11)
+			errorIterationCounter < maxIterationsBeforeError &&
+			(!movesTurnedOn.has(move.id) ||
+				move.id == previousMoveId ||
+				(previousTurnId >= 0 &&
+					turns
+						.find((element) => element.id == previousTurnId)
+						.impossibleMoveIds.includes(move.id)) ||
+				(i == 1 && 8 <= move.id && move.id <= 11))
 		)
 		previousMoveId = move.id
+
+		if (errorIterationCounter >= maxIterationsBeforeError) {
+			throwDrillError()
+			return
+		}
 
 		// no turn after backward marching
 		let hasTurn = i == numMoves || (move.id != 2 && pickRandom([true, false]))
 
 		let turn
 		if (i < numMoves) {
-			turn = move.chooseTurn()
+			do {
+				turn = move.chooseTurn()
+				errorIterationCounter++
+			} while (
+				errorIterationCounter < maxIterationsBeforeError &&
+				!turnsTurnedOn.has(turn.id)
+			)
 		} else {
-			if (hornsUpSwitch.checked) {
+			if (hornsUpSwitch.checked && turnsTurnedOn.has(11)) {
 				turn = pickRandom(endMovesWeighted)
 			} else {
 				turn = endMovesWeighted[0]
 			}
+		}
+
+		if (errorIterationCounter >= maxIterationsBeforeError) {
+			throwDrillError()
+			return
 		}
 
 		previousTurnId = hasTurn ? turn.id : -1
@@ -215,6 +323,59 @@ numMovesSlider.addEventListener('input', (e) => {
 	numMovesLabel.innerText =
 		numMovesSlider.value + ' move' + (numMovesSlider.value > 1 ? 's' : '')
 })
+
+// ---------------------- Moves and Turns Checkboxes ----------------------
+const createCheckbox = (item, containter) => {
+	let label = document.createElement('label')
+	label.className = 'checkbox'
+
+	let checkbox = document.createElement('input')
+	checkbox.type = 'checkbox'
+	checkbox.checked = true
+
+	let labelText = document.createTextNode(' ' + item.label)
+
+	label.appendChild(checkbox)
+	label.appendChild(labelText)
+
+	containter.appendChild(label)
+
+	return checkbox
+}
+
+for (move of moveOptions) {
+	const thisMove = move
+	createCheckbox(thisMove, moveOptionsElement).addEventListener(
+		'change',
+		(e) => {
+			console.log(thisMove)
+			for (moveId of thisMove.ids) {
+				if (e.currentTarget.checked) {
+					movesTurnedOn.add(moveId)
+				} else {
+					movesTurnedOn.delete(moveId)
+				}
+			}
+		}
+	)
+}
+
+for (turn of turnOptions) {
+	const thisTurn = turn
+	createCheckbox(thisTurn, turnOptionsElement).addEventListener(
+		'change',
+		(e) => {
+			console.log(thisTurn)
+			for (turnId of thisTurn.ids) {
+				if (e.currentTarget.checked) {
+					turnsTurnedOn.add(turnId)
+				} else {
+					turnsTurnedOn.delete(turnId)
+				}
+			}
+		}
+	)
+}
 
 // ---------------------- Metronome ----------------------
 

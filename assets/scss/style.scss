@@ -36,8 +36,15 @@ main {
 		}
 	}
 
-	.dropdown-item:first-child {
-		padding-top: 0.65rem;
+	.dropdown-item {
+		&:first-child {
+			padding: 0.65rem 0 0.5rem 0;
+		}
+
+		.checkbox {
+			display: block;
+			padding: 0.3rem 0;
+		}
 	}
 
 	#horns-up-switch-label {
@@ -145,4 +152,5 @@ $slider-thumb-to-track-ratio: 1;
 	left: 50%;
 	right: auto;
 	transform: translate(-50%, 0);
+	padding-bottom: 2rem;
 }
