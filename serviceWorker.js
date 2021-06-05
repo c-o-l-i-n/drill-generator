@@ -11,8 +11,8 @@ const resoursesToCache = [
 	'/assets/js/Move.js',
 	'/assets/js/Turn.js',
 	'/assets/js/unmute.js',
-	'/assets/images/marching-shoe.svg',
 	// images
+	'/assets/images/marching-shoe.svg',
 	'/assets/images/metronome.svg',
 	// fonts
 	'/assets/fonts/montserrat-v15-latin-700.eot',
@@ -33,9 +33,7 @@ const resoursesToCache = [
 self.addEventListener('install', (e) => {
 	e.waitUntil(
 		caches.open('sw-cache').then((cache) => {
-			for (resource of resoursesToCache) {
-				cache.add(resource)
-			}
+			cache.addAll(resoursesToCache)
 		})
 	)
 })
