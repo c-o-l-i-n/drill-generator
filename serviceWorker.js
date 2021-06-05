@@ -1,24 +1,41 @@
-// On install - the application shell cached
+const resoursesToCache = [
+	// HTML
+	'/index.html',
+	'/feedback.html',
+	// CSS
+	'/assets/css/style.css',
+	// JS
+	'/assets/js/formReset.js',
+	'/assets/js/index.js',
+	'/assets/js/Metronome.js',
+	'/assets/js/Move.js',
+	'/assets/js/Turn.js',
+	'/assets/js/unmute.js',
+	'/assets/images/marching-shoe.svg',
+	// images
+	'/assets/images/metronome.svg',
+	// fonts
+	'/assets/fonts/montserrat-v15-latin-700.eot',
+	'/assets/fonts/montserrat-v15-latin-700.svg',
+	'/assets/fonts/montserrat-v15-latin-700.ttf',
+	'/assets/fonts/montserrat-v15-latin-700.woff',
+	'/assets/fonts/montserrat-v15-latin-700.woff2',
+	'/assets/fonts/montserrat-v15-latin-regular.eot',
+	'/assets/fonts/montserrat-v15-latin-regular.svg',
+	'/assets/fonts/montserrat-v15-latin-regular.ttf',
+	'/assets/fonts/montserrat-v15-latin-regular.woff',
+	'/assets/fonts/montserrat-v15-latin-regular.woff2',
+	// external resources
+	'https://use.fontawesome.com/releases/v5.15.3/css/all.css',
+]
+
+// On install - cache resources
 self.addEventListener('install', (e) => {
 	e.waitUntil(
 		caches.open('sw-cache').then((cache) => {
-			// HTML
-			cache.add('/index.html')
-			cache.add('/feedback.html')
-			// CSS
-			cache.add('/assets/css/style.css')
-			// JS
-			cache.add('/assets/js/formReset.js')
-			cache.add('/assets/js/index.js')
-			cache.add('/assets/js/Metronome.js')
-			cache.add('/assets/js/Move.js')
-			cache.add('/assets/js/Turn.js')
-			cache.add('/assets/js/unmute.js')
-			cache.add('/assets/images/marching-shoe.svg')
-			// images
-			cache.add('/assets/images/metronome.svg')
-			// external resources
-			cache.add('https://use.fontawesome.com/releases/v5.15.3/css/all.css')
+			for (resource of resoursesToCache) {
+				cache.add(resourse)
+			}
 		})
 	)
 })
