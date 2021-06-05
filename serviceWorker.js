@@ -34,7 +34,7 @@ self.addEventListener('install', (e) => {
 	e.waitUntil(
 		caches.open('sw-cache').then((cache) => {
 			for (resource of resoursesToCache) {
-				cache.add(resourse)
+				cache.add(resource)
 			}
 		})
 	)
