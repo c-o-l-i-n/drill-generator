@@ -70,8 +70,8 @@ const moves = [
 		(weightedProbability = 3)
 	),
 	new Move(3, '6-to-5', (impossibleTurnIds = [4, 5, 6])),
-	new Move(4, '12-to-5', (impossibleTurnIds = [4, 5, 6])),
-	new Move(5, '16-to-5', (impossibleTurnIds = [4, 5, 6])),
+	new Move(4, '{x}-to-5', (impossibleTurnIds = [4, 5, 6])),
+	// new Move(5, '16-to-5', (impossibleTurnIds = [4, 5, 6])),
 	// new Move(6, '24-to-5', (impossibleTurnIds = [4, 5, 6])),
 	// new Move(7, '32-to-5', (impossibleTurnIds = [4, 5, 6])),
 	new Move(
@@ -135,7 +135,7 @@ const moveOptions = [
 	},
 	{
 		label: 'Adjusted Step',
-		ids: [4, 5],
+		ids: [4],
 	},
 	{
 		label: 'Obliques',
@@ -174,6 +174,7 @@ const endMovesWeighted = [
 const temposWeighted = [100, 120, 120, 120, 144, 144, 144, 160, 160, 180]
 const slowTurn90CountsWeighted = [4, 4, 6, 8, 8, 8, 12, 16]
 const slowTurn180CountsWeighted = [6, 8, 8, 8, 12, 12, 16, 16, 32]
+const adjustedStepCountsWeighted = [12, 12, 16, 16, 16, 24, 32]
 
 // ---------------------- DOM elements ----------------------
 
@@ -228,6 +229,15 @@ const getFullTurnName = (turn) => {
 		return turn.name.replace('{x}', pickRandom(slowTurn180CountsWeighted))
 	} else {
 		return turn.name
+	}
+}
+
+const getFullMoveName = (move) => {
+	if (move.id == 4) {
+		// Adjusted step
+		return move.name.replace('{x}', pickRandom(adjustedStepCountsWeighted))
+	} else {
+		return move.name
 	}
 }
 
@@ -320,7 +330,7 @@ const generateDrill = () => {
 			}
 		}
 
-		drill += move.name
+		drill += getFullMoveName(move)
 
 		appendLineOfDrill(drill)
 
