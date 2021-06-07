@@ -10,10 +10,10 @@ const turns = [
 	new Turn(4, 'Slide TTR on 2', 3),
 	new Turn(5, 'Slide TTR on 4', 3),
 	new Turn(6, 'Slide TTR on 6', 3),
-	new Turn(7, 'Slow Turn 90° to the Left in 8 Counts', 1, [8, 9, 10, 11]),
-	new Turn(8, 'Slow Turn 180° to the Left in 8 Counts', 1, [8, 9, 10, 11]),
-	new Turn(9, 'Slow Turn 90° to the Right in 8 Counts', 1, [8, 9, 10, 11]),
-	new Turn(10, 'Slow Turn 180° to the Right in 8 Counts', 1, [8, 9, 10, 11]),
+	new Turn(7, 'Slow Turn 90° to the Left in {x} Counts', 1, [8, 9, 10, 11]),
+	new Turn(8, 'Slow Turn 180° to the Left in {x} Counts', 1, [8, 9, 10, 11]),
+	new Turn(9, 'Slow Turn 90° to the Right in {x} Counts', 1, [8, 9, 10, 11]),
+	new Turn(10, 'Slow Turn 180° to the Right in {x} Counts', 1, [8, 9, 10, 11]),
 	new Turn(11, 'Hats Off, Rest 123', 1, [8, 9, 10, 11, 14, 15]),
 ]
 
@@ -172,6 +172,8 @@ const endMovesWeighted = [
 ]
 
 const temposWeighted = [100, 120, 120, 120, 144, 144, 144, 160, 160, 180]
+const slowTurn90CountsWeighted = [4, 4, 6, 8, 8, 8, 12, 16]
+const slowTurn180CountsWeighted = [6, 8, 8, 8, 12, 12, 16, 16, 32]
 
 // ---------------------- DOM elements ----------------------
 
@@ -215,6 +217,18 @@ const throwDrillError = () => {
 
 	drillBody.innerHTML =
 		'Impossible drill parameters! 😵<br><br>Adjust options and try again.'
+}
+
+const getFullTurnName = (turn) => {
+	if (turn.id == 7 || turn.id == 9) {
+		// 90 degree slow turn
+		return turn.name.replace('{x}', pickRandom(slowTurn90CountsWeighted))
+	} else if (turn.id == 8 || turn.id == 10) {
+		// 180 degree slow turn
+		return turn.name.replace('{x}', pickRandom(slowTurn180CountsWeighted))
+	} else {
+		return turn.name
+	}
 }
 
 const generateDrill = () => {
@@ -312,7 +326,7 @@ const generateDrill = () => {
 
 		hasTurn &&
 			appendLineOfDrill(
-				turn.name + (hornsUpSwitch.checked && turn.id == -1 ? ', Down' : '')
+				getFullTurnName(turn) + (hornsUpSwitch.checked && turn.id == -1 ? ', Down' : '')
 			)
 	}
 
