@@ -101,6 +101,10 @@ const moves = [
 	new Move(16, 'Side-Steps', (impossibleTurnIds = [4, 5, 6])),
 	new Move(17, 'Step-Sides', (impossibleTurnIds = [4, 5, 6])),
 	new Move(18, 'Step-Kicks', (impossibleTurnIds = [0, 1, 2, 4, 5, 6])),
+	new Move(19, 'Box of Lefts', (impossibleTurnIds = [4, 5, 6]), (precededByOf = false), (weightedProbability = 2)),
+	new Move(20, 'Box of Rights', (impossibleTurnIds = [4, 5, 6]), (precededByOf = false), (weightedProbability = 2)),
+	new Move(21, 'Box of Lefts, all sides facing your initial direction', (impossibleTurnIds = [0, 1, 2, 3, 4, 5, 6]), (precededByOf = false)),
+	new Move(22, 'Box of Rights, all sides facing your initial direction', (impossibleTurnIds = [0, 1, 2, 3, 4, 5, 6]), (precededByOf = false))
 ]
 
 let movesWeighted = []
@@ -153,6 +157,10 @@ const moveOptions = [
 		label: 'Step-Kicks',
 		ids: [18],
 	},
+	{
+		label: 'Box Drills',
+		ids: [19, 20, 21, 22]
+	}
 ]
 
 const endMovesWeighted = [
@@ -276,21 +284,26 @@ const generateDrill = () => {
 
 		previousTurnId = hasTurn ? turn.id : -1
 
-		// only do 1 8 of any Adjusted Step or Oblique
-		if (3 <= move.id && move.id <= 11) {
-			num8s = 1
-		}
-
-		// if Side-Steps or Step-Sides, do 4 (not 1 or 2 8s)
-		if (move.id == 16 || move.id == 17) {
-			drill += '4 '
+		if (move.id >= 19 && move.id <= 22) {
+			// box drills and countdowns have different format (i.e. no '8's)
+			drill += 'A '
 		} else {
-			drill +=
-				num8s +
-				' 8' +
-				(num8s == 1 ? '' : 's') +
-				' ' +
-				(move.precededByOf ? 'of ' : '')
+			// only do 1 8 of any Adjusted Step or Oblique
+			if (3 <= move.id && move.id <= 11) {
+				num8s = 1
+			}
+
+			// if Side-Steps or Step-Sides, do 4 (not 1 or 2 8s)
+			if (move.id == 16 || move.id == 17) {
+				drill += '4 '
+			} else {
+				drill +=
+					num8s +
+					' 8' +
+					(num8s == 1 ? '' : 's') +
+					' ' +
+					(move.precededByOf ? 'of ' : '')
+			}
 		}
 
 		drill += move.name
