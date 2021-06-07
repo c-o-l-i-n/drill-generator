@@ -28,6 +28,8 @@ Logo:
 
 [Bulma Switch component by Wikiki](https://github.com/Wikiki/bulma-switch)
 
+Additional drill features (Box Drills, Countdowns, enhancements for Slow Turns) by [Zach Baruch](https://github.com/zbaruch20)
+
 ## License
 
 [MIT](LICENSE) © Colin A. Williams
