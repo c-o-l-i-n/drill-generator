@@ -104,7 +104,8 @@ const moves = [
 	new Move(19, 'Box of Lefts', (impossibleTurnIds = [4, 5, 6]), (precededByOf = false), (weightedProbability = 2)),
 	new Move(20, 'Box of Rights', (impossibleTurnIds = [4, 5, 6]), (precededByOf = false), (weightedProbability = 2)),
 	new Move(21, 'Box of Lefts, all sides facing your initial direction', (impossibleTurnIds = [0, 1, 2, 3, 4, 5, 6]), (precededByOf = false)),
-	new Move(22, 'Box of Rights, all sides facing your initial direction', (impossibleTurnIds = [0, 1, 2, 3, 4, 5, 6]), (precededByOf = false))
+	new Move(22, 'Box of Rights, all sides facing your initial direction', (impossibleTurnIds = [0, 1, 2, 3, 4, 5, 6]), (precededByOf = false)),
+	new Move(23, '{x}-Countdown, your turn(s) are: {turns}', (impossibleTurnIds = []), (precededByOf = false), (weightedProbability = 2))
 ]
 
 let movesWeighted = []
@@ -160,6 +161,10 @@ const moveOptions = [
 	{
 		label: 'Box Drills',
 		ids: [19, 20, 21, 22]
+	},
+	{
+		label: 'Countdowns',
+		ids: [23]
 	}
 ]
 
@@ -175,6 +180,8 @@ const temposWeighted = [100, 120, 120, 120, 144, 144, 144, 160, 160, 180]
 const slowTurn90CountsWeighted = [4, 4, 6, 8, 8, 8, 12, 16]
 const slowTurn180CountsWeighted = [6, 8, 8, 8, 12, 12, 16, 16, 32]
 const adjustedStepCountsWeighted = [12, 12, 16, 16, 16, 24, 32]
+const countdownLengthsWeighted = [2, 2, 3, 3, 3, 3, 4, 4, 5]
+const countdownTTRsWeighted = [2, 2, 2, 3, 3, 4, 5, 6]
 
 // ---------------------- DOM elements ----------------------
 
@@ -234,11 +241,28 @@ const getFullTurnName = (turn) => {
 
 const getFullMoveName = (move) => {
 	if (move.id == 4) {
-		// Adjusted step
+		// adjusted step
 		return move.name.replace('{x}', pickRandom(adjustedStepCountsWeighted))
+	} else if (move.id == 23) {
+		// countdown
+		let length = pickRandom(countdownLengthsWeighted)
+		return move.name.replace('{x}', length).replace('{turns}', getCountdownTTRs(length))
 	} else {
 		return move.name
 	}
+}
+
+const getCountdownTTRs = (length) => {
+	let TTRs = []
+	for (let i = 0; i < length - 1; i++) {
+		let TTRID = undefined
+		do {
+			TTRID = pickRandom(countdownTTRsWeighted)
+		} while (!turnsTurnedOn.has(TTRID)) // keep picking TTRs if it wasnt selected in options
+		TTRs.push(turns.find(turn => turn.id == TTRID).name)
+	}
+	console.log(`Countdown TTRs: ${TTRs.join(', ')}`)
+	return TTRs.join(', ')
 }
 
 const generateDrill = () => {
@@ -308,7 +332,7 @@ const generateDrill = () => {
 
 		previousTurnId = hasTurn ? turn.id : -1
 
-		if (move.id >= 19 && move.id <= 22) {
+		if (move.id >= 19 && move.id <= 23) {
 			// box drills and countdowns have different format (i.e. no '8's)
 			drill += 'A '
 		} else {
