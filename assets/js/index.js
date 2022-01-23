@@ -10,10 +10,10 @@ const turns = [
 	new Turn(4, 'Slide TTR on 2', 3),
 	new Turn(5, 'Slide TTR on 4', 3),
 	new Turn(6, 'Slide TTR on 6', 3),
-	new Turn(7, 'Slow Turn 90° to the Left in 8 Counts', 1, [8, 9, 10, 11]),
-	new Turn(8, 'Slow Turn 180° to the Left in 8 Counts', 1, [8, 9, 10, 11]),
-	new Turn(9, 'Slow Turn 90° to the Right in 8 Counts', 1, [8, 9, 10, 11]),
-	new Turn(10, 'Slow Turn 180° to the Right in 8 Counts', 1, [8, 9, 10, 11]),
+	new Turn(7, 'Slow Turn 90° to the Left in {x} Counts', 1, [8, 9, 10, 11]),
+	new Turn(8, 'Slow Turn 180° to the Left in {x} Counts', 1, [8, 9, 10, 11]),
+	new Turn(9, 'Slow Turn 90° to the Right in {x} Counts', 1, [8, 9, 10, 11]),
+	new Turn(10, 'Slow Turn 180° to the Right in {x} Counts', 1, [8, 9, 10, 11]),
 	new Turn(11, 'Hats Off, Rest 123', 1, [8, 9, 10, 11, 14, 15]),
 ]
 
@@ -70,8 +70,8 @@ const moves = [
 		(weightedProbability = 3)
 	),
 	new Move(3, '6-to-5', (impossibleTurnIds = [4, 5, 6])),
-	new Move(4, '12-to-5', (impossibleTurnIds = [4, 5, 6])),
-	new Move(5, '16-to-5', (impossibleTurnIds = [4, 5, 6])),
+	new Move(4, '{x}-to-5', (impossibleTurnIds = [4, 5, 6])),
+	// new Move(5, '16-to-5', (impossibleTurnIds = [4, 5, 6])),
 	// new Move(6, '24-to-5', (impossibleTurnIds = [4, 5, 6])),
 	// new Move(7, '32-to-5', (impossibleTurnIds = [4, 5, 6])),
 	new Move(
@@ -101,6 +101,39 @@ const moves = [
 	new Move(16, 'Side-Steps', (impossibleTurnIds = [4, 5, 6])),
 	new Move(17, 'Step-Sides', (impossibleTurnIds = [4, 5, 6])),
 	new Move(18, 'Step-Kicks', (impossibleTurnIds = [0, 1, 2, 4, 5, 6])),
+	new Move(
+		19,
+		'Box of Lefts',
+		(impossibleTurnIds = [4, 5, 6]),
+		(precededByOf = false),
+		(weightedProbability = 2)
+	),
+	new Move(
+		20,
+		'Box of Rights',
+		(impossibleTurnIds = [4, 5, 6]),
+		(precededByOf = false),
+		(weightedProbability = 2)
+	),
+	new Move(
+		21,
+		'Box of Lefts, all sides facing your initial direction',
+		(impossibleTurnIds = [0, 1, 2, 3, 4, 5, 6]),
+		(precededByOf = false)
+	),
+	new Move(
+		22,
+		'Box of Rights, all sides facing your initial direction',
+		(impossibleTurnIds = [0, 1, 2, 3, 4, 5, 6]),
+		(precededByOf = false)
+	),
+	new Move(
+		23,
+		'{x}-Countdown, your turn(s) are: {turns}',
+		(impossibleTurnIds = []),
+		(precededByOf = false),
+		(weightedProbability = 2)
+	),
 ]
 
 let movesWeighted = []
@@ -131,7 +164,7 @@ const moveOptions = [
 	},
 	{
 		label: 'Adjusted Step',
-		ids: [4, 5],
+		ids: [4],
 	},
 	{
 		label: 'Obliques',
@@ -153,6 +186,14 @@ const moveOptions = [
 		label: 'Step-Kicks',
 		ids: [18],
 	},
+	{
+		label: 'Box Drills',
+		ids: [19, 20, 21, 22],
+	},
+	{
+		label: 'Countdowns',
+		ids: [23],
+	},
 ]
 
 const endMovesWeighted = [
@@ -164,6 +205,11 @@ const endMovesWeighted = [
 ]
 
 const temposWeighted = [100, 120, 120, 120, 144, 144, 144, 160, 160, 180]
+const slowTurn90CountsWeighted = [4, 4, 6, 8, 8, 8, 12, 16]
+const slowTurn180CountsWeighted = [6, 8, 8, 8, 12, 12, 16, 16, 32]
+const adjustedStepCountsWeighted = [12, 12, 16, 16, 16, 24, 32]
+const countdownLengthsWeighted = [2, 2, 3, 3, 3, 3, 4, 4, 5]
+const countdownTTRsWeighted = [2, 2, 2, 3, 3, 4, 5, 6]
 
 // ---------------------- DOM elements ----------------------
 
@@ -207,6 +253,46 @@ const throwDrillError = () => {
 
 	drillBody.innerHTML =
 		'Impossible drill parameters! 😵<br><br>Adjust options and try again.'
+}
+
+const getFullTurnName = (turn) => {
+	if (turn.id == 7 || turn.id == 9) {
+		// 90 degree slow turn
+		return turn.name.replace('{x}', pickRandom(slowTurn90CountsWeighted))
+	} else if (turn.id == 8 || turn.id == 10) {
+		// 180 degree slow turn
+		return turn.name.replace('{x}', pickRandom(slowTurn180CountsWeighted))
+	} else {
+		return turn.name
+	}
+}
+
+const getFullMoveName = (move) => {
+	if (move.id == 4) {
+		// adjusted step
+		return move.name.replace('{x}', pickRandom(adjustedStepCountsWeighted))
+	} else if (move.id == 23) {
+		// countdown
+		let length = pickRandom(countdownLengthsWeighted)
+		return move.name
+			.replace('{x}', length)
+			.replace('{turns}', getCountdownTTRs(length))
+	} else {
+		return move.name
+	}
+}
+
+const getCountdownTTRs = (length) => {
+	let TTRs = []
+	for (let i = 0; i < length - 1; i++) {
+		let TTRID = undefined
+		do {
+			TTRID = pickRandom(countdownTTRsWeighted)
+		} while (!turnsTurnedOn.has(TTRID)) // keep picking TTRs if it wasnt selected in options
+		TTRs.push(turns.find((turn) => turn.id == TTRID).name)
+	}
+	console.log(`Countdown TTRs: ${TTRs.join(', ')}`)
+	return TTRs.join(', ')
 }
 
 const generateDrill = () => {
@@ -276,30 +362,36 @@ const generateDrill = () => {
 
 		previousTurnId = hasTurn ? turn.id : -1
 
-		// only do 1 8 of any Adjusted Step or Oblique
-		if (3 <= move.id && move.id <= 11) {
-			num8s = 1
-		}
-
-		// if Side-Steps or Step-Sides, do 4 (not 1 or 2 8s)
-		if (move.id == 16 || move.id == 17) {
-			drill += '4 '
+		if (move.id >= 19 && move.id <= 23) {
+			// box drills and countdowns have different format (i.e. no '8's)
+			drill += 'A '
 		} else {
-			drill +=
-				num8s +
-				' 8' +
-				(num8s == 1 ? '' : 's') +
-				' ' +
-				(move.precededByOf ? 'of ' : '')
+			// only do 1 8 of any Adjusted Step or Oblique
+			if (3 <= move.id && move.id <= 11) {
+				num8s = 1
+			}
+
+			// if Side-Steps or Step-Sides, do 4 (not 1 or 2 8s)
+			if (move.id == 16 || move.id == 17) {
+				drill += '4 '
+			} else {
+				drill +=
+					num8s +
+					' 8' +
+					(num8s == 1 ? '' : 's') +
+					' ' +
+					(move.precededByOf ? 'of ' : '')
+			}
 		}
 
-		drill += move.name
+		drill += getFullMoveName(move)
 
 		appendLineOfDrill(drill)
 
 		hasTurn &&
 			appendLineOfDrill(
-				turn.name + (hornsUpSwitch.checked && turn.id == -1 ? ', Down' : '')
+				getFullTurnName(turn) +
+					(hornsUpSwitch.checked && turn.id == -1 ? ', Down' : '')
 			)
 	}
 
