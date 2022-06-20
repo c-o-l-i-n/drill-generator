@@ -72,8 +72,8 @@ const moves = [
 	new Move(3, '6-to-5', (impossibleTurnIds = [4, 5, 6])),
 	new Move(4, '12-to-5', (impossibleTurnIds = [4, 5, 6])),
 	new Move(5, '16-to-5', (impossibleTurnIds = [4, 5, 6])),
-	// new Move(6, '24-to-5', (impossibleTurnIds = [4, 5, 6])),
-	// new Move(7, '32-to-5', (impossibleTurnIds = [4, 5, 6])),
+	new Move(6, 'Backward 12-to-5', (impossibleTurnIds = [4, 5, 6])),
+	new Move(7, 'Backward 16-to-5', (impossibleTurnIds = [4, 5, 6])),
 	new Move(
 		8,
 		'Left Oblique using the 8-to-5 Step',
@@ -131,7 +131,7 @@ const moveOptions = [
 	},
 	{
 		label: 'Adjusted Step',
-		ids: [4, 5],
+		ids: [4, 5, 6, 7],
 	},
 	{
 		label: 'Obliques',
