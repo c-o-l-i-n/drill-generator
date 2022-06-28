@@ -131,7 +131,11 @@ const moveOptions = [
 	},
 	{
 		label: 'Adjusted Step',
-		ids: [4, 5, 6, 7],
+		ids: [4, 5],
+	},
+	{
+		label: 'Backward Adjusted Step',
+		ids: [6, 7],
 	},
 	{
 		label: 'Obliques',
